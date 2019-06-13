@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const ergodic = require('./ergodic')
 const ergodicRemote = require('./ergodicRemote')
 const uploadFile = require('./uploadFile')
