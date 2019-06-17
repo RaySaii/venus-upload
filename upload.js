@@ -6,8 +6,10 @@ const uploadFile = require('./uploadFile')
 const deleteRemoteFile = require('./deleteRemoteFile')
 const copyRemoteToRelease = require('./copyRemoteToRelease')
 const Program = require('./program')
+const Manager = require('./manager')
 
 Program.init()
+Manager.init(Program.access_key, Program.secret_key)
 
 async function main() {
 
@@ -31,7 +33,7 @@ async function main() {
   console.log()
   console.log(`======== 开始上传 -> ${config.BUCKET} =========`)
   console.log()
-  const localFileList = ergodic('./dist')
+  const localFileList = ergodic(Program.localDir)
   await Promise.all(localFileList.map(filePath => uploadFile(filePath, config.BUCKET, Program.remoteDir)))
   console.log()
   console.log('共上传', localFileList.length, '个文件')

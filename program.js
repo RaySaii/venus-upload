@@ -15,16 +15,19 @@ class Program {
         .option('-a, --access <string>', 'access-key')
         .option('-s, --secret <string>', 'secret-key')
         .option('-e, --env <string>', 'environment')
+        .option('-l, --local <string>', 'local dir')
     //解析commandline arguments
     program.parse(process.argv)
-    const { env, namespace,access,secret } = program
+    const { env, namespace, access, secret, local } = program
     if (!access) throw Error('必须输入access-key')
     if (!secret) throw Error('必须输入secret-key')
-    Manager.init(access, secret)
     if (!namespace) throw Error('必须输入上传空间')
     if (!env) throw Error('必须输入上传环境')
     this.remoteDir = namespace + '/'
+    this.localDir = local || './dist'
     this.env = env
+    this.access_key = access
+    this.secret_key = secret
   }
 }
 
