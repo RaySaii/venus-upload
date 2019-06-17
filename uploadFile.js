@@ -1,9 +1,10 @@
 const getFileMime = require('./getFileMime')
 const qiniu = require('qiniu')
 const Manager = require('./manager')
+const Program = require('./program')
 
 function uploadFile(filePath, bucket,remoteDir) {
-  const KEY = remoteDir + filePath.split('dist/')[1]
+  const KEY = remoteDir + filePath.split(Program.localDir+'/')[1]
   const LOCAL_FILE = './' + filePath
   const scope = `${bucket}:${KEY}`
   const PutPolicy = new qiniu.rs.PutPolicy({ scope, MimeType: 0 })
