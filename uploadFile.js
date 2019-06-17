@@ -4,7 +4,9 @@ const Manager = require('./manager')
 const Program = require('./program')
 
 function uploadFile(filePath, bucket,remoteDir) {
-  const KEY = remoteDir + filePath.split(Program.localDir+'/')[1]
+  const dirName=Program.localDir.replace('./','')
+  const reg=new RegExp(`.*${dirName}/`)
+  const KEY = remoteDir + filePath.replace(reg,'')
   const LOCAL_FILE = './' + filePath
   const scope = `${bucket}:${KEY}`
   const PutPolicy = new qiniu.rs.PutPolicy({ scope, MimeType: 0 })
