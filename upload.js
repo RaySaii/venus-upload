@@ -17,20 +17,11 @@ async function main() {
 
   if (Program.env == 'release') {
     const fileList = await ergodicRemote(config.copyFromBucket, Program.remoteDir)
-    await Promise.all(fileList.map(file => copyRemoteToRelease(config.copyFromBucket, file.key, config.BUCKET)))
-    console.log()
-    console.log('共拷贝', fileList.length, '个文件')
+    const htmlFile = fileList.find(file => file.key.endsWith('.html'))
+    await copyRemoteToRelease(config.copyFromBucket, htmlFile.key, config.BUCKET)
     return
   }
 
-  const fileList = await ergodicRemote(config.BUCKET, Program.remoteDir)
-  console.log()
-  console.log(`======== 删除 ${config.BUCKET} 下文件 =========`)
-  console.log()
-  await Promise.all(fileList.map(file => deleteRemoteFile(config.BUCKET, file.key)))
-  console.log()
-  console.log('共删除', fileList.length, '个文件')
-  console.log()
   console.log(`======== 开始上传 -> ${config.BUCKET} =========`)
   console.log()
   const localFileList = ergodic(Program.localDir)
